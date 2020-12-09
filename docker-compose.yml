@@ -33,3 +33,49 @@ services:
       - "8600:8600"
       - "8600:8600/udp"
     command: "agent -server -bootstrap-expect 3 -ui -client 0.0.0.0"
+
+  prometheus:
+    image: prom/prometheus:v2.1.0
+    container_name: prometheus
+    logging: *json_logging
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+      - ~/promdata:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports: ["9090:9090"]
+
+  alertmanager:
+    image: prom/alertmanager:v0.21.0
+    container_name: alertmanager
+    logging: *json_logging
+    ports: ["9093:9093"]
+    volumes:
+      - ./alertmanager/:/etc/alertmanager/
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
+
+  grafana:
+    image: grafana/grafana:7.3.4
+    container_name: grafana
+    user: "472"
+    logging: *json_logging
+    # depends_on:
+    #   - prometheus
+    ports: ["3000:3000"]
+    env_file: ./env/grafana.env
+    volumes:
+      - ~/grafdata:/var/lib/grafana
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+
+  pushgateway:
+    image: prom/pushgateway:v1.3.0
+    container_name: pushgateway
+    logging: *json_logging
+    expose:
+      - 9091
+    ports: ["9091:9091"]
