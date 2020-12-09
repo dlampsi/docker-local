@@ -1,0 +1,22 @@
+version: "3.7"
+
+x-json-logging: &json_logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "1"
+
+networks:
+  dsl-local:
+    external:
+      name: dsl-local
+
+services:
+  redis:
+    image: redis:6.0.8
+    container_name: redis
+    logging: *json_logging
+    networks:
+      - dsl-local
+    ports: 
+      - 6379:6379

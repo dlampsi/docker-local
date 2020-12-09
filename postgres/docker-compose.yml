@@ -1,0 +1,26 @@
+version: "3.7"
+
+x-json-logging: &json_logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "1"
+
+networks:
+  dsl-local:
+    external:
+      name: dsl-local
+
+services:
+  postgres:
+    image: postgres:12
+    container_name: postgres
+    logging: *json_logging
+    networks:
+      - dsl-local
+    env_file: .env
+    ports: 
+      - 65432:5432
+    volumes:
+      - ./multiply-pg-db.sh:/docker-entrypoint-initdb.d/multiply-pg-db.sh
+      - ~/pgdata:/var/lib/postgresql/data/pgdata

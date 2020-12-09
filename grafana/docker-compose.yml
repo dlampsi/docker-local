@@ -1,0 +1,29 @@
+version: "3.7"
+
+x-json-logging: &json_logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "1"
+
+networks:
+  dsl-local:
+    external:
+      name: dsl-local
+
+volumes:
+  grafana_data: {}
+
+services:
+  grafana:
+    image: grafana/grafana:7.3.4
+    container_name: grafana
+    user: "472"
+    logging: *json_logging
+    networks:
+      - dsl-local
+    ports: ["3000:3000"]
+    env_file: .env
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - .provisioning/:/etc/grafana/provisioning/

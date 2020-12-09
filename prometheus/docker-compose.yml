@@ -1,0 +1,58 @@
+version: "3.7"
+
+x-json-logging: &json_logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "1"
+
+networks:
+  dsl-local:
+    external:
+      name: dsl-local
+
+volumes:
+  prometheus_data: {}
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.1.0
+    container_name: prometheus
+    logging: *json_logging
+    networks:
+      - dsl-local
+    volumes:
+      - ./configs/:/etc/prometheus/
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports:
+      - 9090:9090
+
+  alertmanager:
+    image: prom/alertmanager:v0.21.0
+    container_name: alertmanager
+    logging: *json_logging
+    networks:
+      - dsl-local
+    ports:
+      - 9093:9093
+    volumes:
+      - ./alertmanager/:/etc/alertmanager/
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
+
+  pushgateway:
+    image: prom/pushgateway:v1.3.0
+    container_name: pushgateway
+    logging: *json_logging
+    networks:
+      - dsl-local
+    expose:
+      - 9091
+    ports:
+      - 9091:9091
