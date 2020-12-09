@@ -21,7 +21,7 @@ services:
     env_file: ./env/postgres.env
     volumes:
       - ./scripts/multiply-pg-db.sh:/docker-entrypoint-initdb.d/multiply-pg-db.sh
-      - ./pgdata:/var/lib/postgresql/data/pgdata
+      - ~/pgdata:/var/lib/postgresql/data/pgdata
 
   consul:
     image: consul:1.9.0
