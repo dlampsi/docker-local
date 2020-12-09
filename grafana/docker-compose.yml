@@ -7,9 +7,9 @@ x-json-logging: &json_logging
     max-file: "1"
 
 networks:
-  dsl-local:
+  proxy-net:
     external:
-      name: dsl-local
+      name: "${DOCKER_LOCAL_NETWORK}"
 
 volumes:
   grafana_data: {}
@@ -21,7 +21,7 @@ services:
     user: "472"
     logging: *json_logging
     networks:
-      - dsl-local
+      - proxy-net
     ports: ["3000:3000"]
     env_file: .env
     volumes:

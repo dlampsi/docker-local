@@ -7,9 +7,9 @@ x-json-logging: &json_logging
     max-file: "1"
 
 networks:
-  dsl-local:
+  proxy-net:
     external:
-      name: dsl-local
+      name: "${DOCKER_LOCAL_NETWORK}"
 
 services:
   redis:
@@ -17,6 +17,6 @@ services:
     container_name: redis
     logging: *json_logging
     networks:
-      - dsl-local
+      - proxy-net
     ports: 
       - 6379:6379

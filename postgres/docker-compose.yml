@@ -7,9 +7,9 @@ x-json-logging: &json_logging
     max-file: "1"
 
 networks:
-  dsl-local:
+  proxy-net:
     external:
-      name: dsl-local
+      name: "${DOCKER_LOCAL_NETWORK}"
 
 services:
   postgres:
@@ -17,7 +17,7 @@ services:
     container_name: postgres
     logging: *json_logging
     networks:
-      - dsl-local
+      - proxy-net
     env_file: .env
     ports: 
       - 65432:5432
