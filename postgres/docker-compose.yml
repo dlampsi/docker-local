@@ -13,7 +13,7 @@ networks:
 
 services:
   postgres:
-    image: postgres:12
+    image: postgres:${DOCKER_LOCAL_POSTGRES_VERSION}
     container_name: postgres
     logging: *json_logging
     networks:

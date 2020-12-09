@@ -13,7 +13,7 @@ networks:
 
 services:
   redis:
-    image: redis:6.0.8
+    image: redis:${DOCKER_LOCAL_REDIS_VERSION}
     container_name: redis
     logging: *json_logging
     networks:

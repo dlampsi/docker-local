@@ -1,3 +1,4 @@
 .env
+.env.*
 pgdata
 grafana/.provisioning

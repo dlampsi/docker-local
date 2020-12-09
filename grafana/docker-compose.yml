@@ -16,13 +16,14 @@ volumes:
 
 services:
   grafana:
-    image: grafana/grafana:7.3.4
+    image: grafana/grafana:${DOCKER_LOCAL_GRAFANA_VERSION}
     container_name: grafana
     user: "472"
     logging: *json_logging
     networks:
       - proxy-net
-    ports: ["3000:3000"]
+    ports: 
+      - 3000:3000
     env_file: .env
     volumes:
       - grafana_data:/var/lib/grafana

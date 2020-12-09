@@ -16,7 +16,7 @@ volumes:
 
 services:
   prometheus:
-    image: prom/prometheus:v2.1.0
+    image: prom/prometheus:${DOCKER_LOCAL_PROMETHEUS_VERSION}
     container_name: prometheus
     logging: *json_logging
     networks:
@@ -33,7 +33,7 @@ services:
       - 9090:9090
 
   alertmanager:
-    image: prom/alertmanager:v0.21.0
+    image: prom/alertmanager:${DOCKER_LOCAL_ALERTMANAGER_VERSION}
     container_name: alertmanager
     logging: *json_logging
     networks:
@@ -47,7 +47,7 @@ services:
       - '--storage.path=/alertmanager'
 
   pushgateway:
-    image: prom/pushgateway:v1.3.0
+    image: prom/pushgateway:${DOCKER_LOCAL_PUSHGATEWAY_VERSION}
     container_name: pushgateway
     logging: *json_logging
     networks:
