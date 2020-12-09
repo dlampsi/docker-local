@@ -24,7 +24,7 @@ POSTGRES_MULTIPLE_DATABASES=db1,db2
 PGDATA=/var/lib/postgresql/data/pgdata
 ```
 
-Service also using [create multi databases](multiply-pg-db.sh) script. A list of databases that could be created during startup should be provided via `POSTGRES_MULTIPLE_DATABASES` env.
+Service also using [create multi databases](postgres/multiply-pg-db.sh) script. A list of databases that could be created during startup should be provided via `POSTGRES_MULTIPLE_DATABASES` env.
 
 Postgres data directory will be created in [your home directory](https://github.com/dlampsi/docker-local/blob/master/postgres/docker-compose.yml#L26).
 
