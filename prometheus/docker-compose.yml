@@ -37,7 +37,7 @@ services:
     container_name: alertmanager
     logging: *json_logging
     networks:
-      - dsl-local
+      - proxy-net
     ports:
       - 9093:9093
     volumes:
@@ -51,7 +51,7 @@ services:
     container_name: pushgateway
     logging: *json_logging
     networks:
-      - dsl-local
+      - proxy-net
     expose:
       - 9091
     ports:
